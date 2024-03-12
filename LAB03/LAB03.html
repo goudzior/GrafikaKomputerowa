@@ -129,7 +129,7 @@ function startGL()
 let angle = 45.0; //Macierz transformacji świata - określenie położenia kamery 
 function Tick()
 {  
-  angle=angle+1  
+  //angle=angle+1  
   let uMVMatrix = [
   Math.cos(angle*Math.PI/180.0),-Math.sin(angle*Math.PI/180.0),0,0, //Macierz Rotacji
   Math.sin(angle*Math.PI/180.0),Math.cos(angle*Math.PI/180.0),0,0,
@@ -164,9 +164,17 @@ function Tick()
    
   setTimeout(Tick,100);
 }
+
+function handlekeydown(e)
+{
+ if(e.keyCode==87) angle=angle+1.0; //Klawisz W
+ if(e.keyCode==83) angle=angle-1.0; //Klawisz S
+}
+
+
 </script>
 </head>
-<body onload="startGL()">
+<body onload="startGL()" onkeydown="handlekeydown(event)"></body>>
 <canvas id="canvas3D" width="640" height="480" style="border: solid black 1px"></canvas>
 </body>
 </html>
