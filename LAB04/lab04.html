@@ -31,7 +31,7 @@ function MatrixMul(a,b) //Mnożenie macierzy
 
 function startGL() 
 {
-  alert("StartGL");
+  //daalert("StartGL");
   let canvas = document.getElementById("canvas3D"); //wyszukanie obiektu w strukturze strony 
   gl = canvas.getContext("experimental-webgl"); //pobranie kontekstu OpenGL'u z obiektu canvas
   gl.viewportWidth = canvas.width; //przypisanie wybranej przez nas rozdzielczości do systemu OpenGL
@@ -60,7 +60,7 @@ function startGL()
     uniform sampler2D uSampler;
     void main(void) {
       //gl_FragColor = vec4(vColor,1.0); //Ustalenie stałego koloru wszystkich punktów sceny
-      gl_FragColor = texture2D(uSampler,vTexUV); //Odczytanie punktu tekstury i przypisanie go jako koloru danego punktu renderowaniej figury
+      gl_FragColor = texture2D(uSampler,vTexUV)*vec4(vColor,1.0); //Odczytanie punktu tekstury i przypisanie go jako koloru danego punktu renderowaniej figury
     }
   `;
   let fragmentShader = gl.createShader(gl.FRAGMENT_SHADER); //Stworzenie obiektu shadera 
@@ -145,20 +145,20 @@ function startGL()
     0.0, 0.0,  1.0, 0.0,  1.0, 1.0, //3 punkty po 2 składowe - U1,V1, U2,V2, U3,V3 - 1 trójkąt
     0.0, 0.0,  1.0, 1.0,  0.0, 1.0,
   //Left
-    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,
+    1.0, 0.0,  1.0, 1.0,  0.0, 0.0,
     0.0, 0.0,  1.0, 1.0,  0.0, 1.0,
   //Right
     0.0, 0.0,  1.0, 0.0,  1.0, 1.0,
     0.0, 0.0,  1.0, 1.0,  0.0, 1.0,
   //Front
-    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,
-    0.0, 0.0,  1.0, 1.0,  0.0, 1.0,
+    0.0, 1.0,  0.0, 0.0,  1.0, 1.0,
+    1.0, 0.0,  1.0, 1.0,  0.0, 0.0,
   //Back
     0.0, 0.0,  1.0, 0.0,  1.0, 1.0,
     0.0, 0.0,  1.0, 1.0,  0.0, 1.0,
   //Bottom
-    0.0, 0.0,  1.0, 0.0,  1.0, 1.0,
-    0.0, 0.0,  1.0, 1.0,  0.0, 1.0,
+    0.0, 0.0,  0.0, 1.0,  1.0, 0.0,
+    1.0, 0.0,  0.0, 1.0,  1.0, 1.0,
   ];
 
   vertexCoordsBuffer = gl.createBuffer();
@@ -196,7 +196,7 @@ function startGL()
 //let angle = 45.0; //Macierz transformacji świata - określenie położenia kamery
 var angleZ = 0.0;
 var angleY = 0.0;
-var angleX = 0.0;
+var angleX = -90.0;
 var tz = -5.0;
 
 function Tick()
