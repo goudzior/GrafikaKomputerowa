@@ -108,14 +108,13 @@ function createPlanet(r, d) {
   return vertexPosition;
 }
 
+let uMVMatrix = null;
 function startGL() 
 {
-  //alert("StartGL");
   let canvas = document.getElementById("canvas3D"); //wyszukanie obiektu w strukturze strony 
   gl = canvas.getContext("experimental-webgl"); //pobranie kontekstu OpenGL'u z obiektu canvas
   gl.viewportWidth = canvas.width; //przypisanie wybranej przez nas rozdzielczości do systemu OpenGL
   gl.viewportHeight = canvas.height;
-
 
   //Kod shaderów
   const vertextShaderSource = ` //Znak akcentu z przycisku tyldy - na lewo od przycisku 1 na klawiaturze
@@ -166,19 +165,18 @@ function startGL()
   
   //Opis sceny 3D, położenie punktów w przestrzeni 3D w formacie X,Y,Z 
   //3 punkty po 3 składowe - X1,Y1,Z1, X2,Y2,Z2, X3,Y3,Z3 - 1 trójkąt
-  
   let stepElevation = 90/6;
   let stepAngle = 360/12;
-
-  let vertexPosition = createPlanet(0.01,0.05); //sun
-  let vertexPosition2 = createPlanet(0.00352, 0.103); //mercury
-  let vertexPosition3 = createPlanet(0.00869, 0.192); //venus 
-  let vertexPosition4 = createPlanet(0.00916, 0.266); //earth
-  let vertexPosition5 = createPlanet(0.00488, 0.405); //mars
-  let vertexPosition6 = createPlanet(0.102, 1.384); //jupiter
-  let vertexPosition7 = createPlanet(0.0866, 2.539); //saturn
-  let vertexPosition8 = createPlanet(0.0366, 5.1); //uranus
-  let vertexPosition9 = createPlanet(0.036, 8); //neptune
+  
+  let vertexPosition = createPlanet(1.392,-6.5); //sun
+  let vertexPosition2 = createPlanet(0.0048, -3); //mercury
+  let vertexPosition3 = createPlanet(0.0121 , -2); //venus 
+  let vertexPosition4 = createPlanet(0.0127, -1); //earth
+  let vertexPosition5 = createPlanet(0.0068, 0); //mars
+  let vertexPosition6 = createPlanet(0.1398 , 1); //jupiter
+  let vertexPosition7 = createPlanet(0.1165, 2); //saturn
+  let vertexPosition8 = createPlanet(0.0507 , 3); //uranus
+  let vertexPosition9 = createPlanet(0.0492 , 4); //neptune
   
   vertexPositionBuffer = gl.createBuffer(); //Stworzenie tablicy w pamieci karty graficznej
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
@@ -277,7 +275,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg.src="sun.jpg";
+  textureImg.src="planet_textures/sun.jpg";
 
   textureBuffer2 = gl.createTexture();
   var textureImg2 = new Image();
@@ -288,7 +286,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg2.src="mercury.jpg";
+  textureImg2.src="planet_textures/mercury.jpg";
 
   textureBuffer3 = gl.createTexture();
   var textureImg3 = new Image();
@@ -299,7 +297,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg3.src="venus.jpg";
+  textureImg3.src="planet_textures/venus.jpg";
 
   textureBuffer4 = gl.createTexture();
   var textureImg4 = new Image();
@@ -310,7 +308,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg4.src="earth.jpg";
+  textureImg4.src="planet_textures/earth.jpg";
 
   textureBuffer5 = gl.createTexture();
   var textureImg5 = new Image();
@@ -321,7 +319,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg5.src="mars.jpg";
+  textureImg5.src="planet_textures/mars.jpg";
 
   textureBuffer6 = gl.createTexture();
   var textureImg6 = new Image();
@@ -332,7 +330,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg6.src="jupiter.jpg";
+  textureImg6.src="planet_textures/jupiter.jpg";
 
   textureBuffer7 = gl.createTexture();
   var textureImg7 = new Image();
@@ -343,7 +341,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg7.src="saturn.jpg";
+  textureImg7.src="planet_textures/saturn.jpg";
 
   textureBuffer8 = gl.createTexture();
   var textureImg8 = new Image();
@@ -354,7 +352,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg8.src="uranus.jpg";
+  textureImg8.src="planet_textures/uranus.jpg";
 
   textureBuffer9 = gl.createTexture();
   var textureImg9 = new Image();
@@ -365,7 +363,7 @@ function startGL()
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
   }
-  textureImg9.src="neptune.jpg";
+  textureImg9.src="planet_textures/neptune.jpg";
   
   //Macierze opisujące położenie wirtualnej kamery w przestrzenie 3D
   let aspect = gl.viewportWidth/gl.viewportHeight;
@@ -382,14 +380,12 @@ function startGL()
   ];
   Tick();
 } 
-//let angle = 45.0; //Macierz transformacji świata - określenie położenia kamery
+
 var angleZ = 0.0;
 var angleY = 0.0;
 var angleX = 0.0;
-var tz = -0.095;
-function Tick()
-{  
-  let uMVMatrix = [
+var tz = -7.0;
+  uMVMatrix = [
   1,0,0,0, //Macierz jednostkowa
   0,1,0,0,
   0,0,1,0,
@@ -431,9 +427,12 @@ function Tick()
   uMVMatrix = MatrixMul(uMVMatrix,uMVTranslateZ);
   //alert(uPMatrix);
   
+function Tick()
+{  
+
   //Render Scene
   gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight); 
-  gl.clearColor(0.0,0.0,0.0,1.0); //Wyczyszczenie obrazu kolorem czerwonym
+  gl.clearColor(0.0,0.0,0.0,1.0); //Wyczyszczenie obrazu kolorem czarnym
   gl.clearDepth(1.0);             //Wyczyścienie bufora głebi najdalszym planem
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.useProgram(shaderProgram)   //Użycie przygotowanego programu shaderowego
@@ -453,8 +452,7 @@ function Tick()
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexCoordsBuffer);
   gl.vertexAttribPointer(gl.getAttribLocation(shaderProgram, "aVertexCoords"), vertexCoordsBuffer.itemSize, gl.FLOAT, false, 0, 0);
 
-  //slonce
-
+  //sun
   gl.enableVertexAttribArray(gl.getAttribLocation(shaderProgram, "aVertexPosition"));  //Przekazanie położenia
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
   gl.vertexAttribPointer(gl.getAttribLocation(shaderProgram, "aVertexPosition"), vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -570,20 +568,74 @@ function Tick()
 
 function handlekeydown(e)
 {
- if(e.keyCode==87) angleX=angleX+1.0; //W
- if(e.keyCode==83) angleX=angleX-1.0; //S
- if(e.keyCode==68) angleY=angleY+1.0;
- if(e.keyCode==65) angleY=angleY-1.0;
- if(e.keyCode==81) angleZ=angleZ+1.0;
- if(e.keyCode==69) angleZ=angleZ-1.0;
- if(e.keyCode==90) tz+=0.1
- if(e.keyCode==88) tz-=0.1
+if(e.keyCode==87)
+ {
+    angleX=angleX+1.0; //W
+    //Ekstrakcja głownych kierunków zgodnie z bierzącą macierzą rotacji 
+    let xAxis = [uMVMatrix[0],uMVMatrix[4],uMVMatrix[ 8]];
+    let yAxis = [uMVMatrix[1],uMVMatrix[5],uMVMatrix[ 9]];
+    let zAxis = [uMVMatrix[2],uMVMatrix[6],uMVMatrix[10]];
+    //Dopasowanie rozmiaru kroku
+    let stepSize = 0.15;
+    zAxis = [stepSize*zAxis[0],stepSize*zAxis[1],stepSize*zAxis[2]];
+    //Macierz 
+    const translationZAxis = [
+    1.0,0.0,0.0,0.0,
+    0.0,1.0,0.0,0.0,
+    0.0,0.0,1.0,0.0,
+    zAxis[0],zAxis[1],zAxis[2],1.0
+    ];
+
+    uMVMatrix = MatrixMul(uMVMatrix,translationZAxis);
+ }
+ if(e.keyCode==83) {
+    angleX=angleX-1.0; //W
+    //Ekstrakcja głownych kierunków zgodnie z bierzącą macierzą rotacji 
+    let xAxis = [uMVMatrix[0],uMVMatrix[4],uMVMatrix[ 8]];
+    let yAxis = [uMVMatrix[1],uMVMatrix[5],uMVMatrix[ 9]];
+    let zAxis = [uMVMatrix[2],uMVMatrix[6],uMVMatrix[10]];
+    //Dopasowanie rozmiaru kroku
+    let stepSize = -0.15;
+    zAxis = [stepSize*zAxis[0],stepSize*zAxis[1],stepSize*zAxis[2]];
+    //Macierz 
+    const translationZAxis = [
+    1.0,0.0,0.0,0.0,
+    0.0,1.0,0.0,0.0,
+    0.0,0.0,1.0,0.0,
+    zAxis[0],zAxis[1],zAxis[2],1.0
+    ];
+
+    uMVMatrix = MatrixMul(uMVMatrix,translationZAxis);
+ }
+ if(e.keyCode==68) {
+    angleY=angleY+1.0;
+    const stepAngle = 1;
+    let rotationYAxis = [
+    +Math.cos(stepAngle*Math.PI/180.0),0,-Math.sin(stepAngle*Math.PI/180.0),0,
+    0,1,0,0,
+    +Math.sin(stepAngle*Math.PI/180.0),0,+Math.cos(stepAngle*Math.PI/180.0),0,
+    0,0,0,1
+    ];
+    uMVMatrix = MatrixMul(uMVMatrix,rotationYAxis);
+  }
+  
+  if(e.keyCode==65) {
+    angleY=angleY-1.0;
+    const stepAngle = -1;
+    let rotationYAxis = [
+    +Math.cos(stepAngle*Math.PI/180.0),0,-Math.sin(stepAngle*Math.PI/180.0),0,
+    0,1,0,0,
+    +Math.sin(stepAngle*Math.PI/180.0),0,+Math.cos(stepAngle*Math.PI/180.0),0,
+    0,0,0,1
+    ];
+    uMVMatrix = MatrixMul(uMVMatrix,rotationYAxis);
+  }
  //alert(e.keyCode);
  //alert(angleX);
 }
 </script>
 </head>
 <body onload="startGL()" onkeydown="handlekeydown(event)">
-<canvas id="canvas3D" width="1920" height="1080" style="border: solid black 1px"></canvas>
+<canvas id="canvas3D" width="2200" height="1080" style="border: solid black 1px"></canvas>
 </body>
 </html>
