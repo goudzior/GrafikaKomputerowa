@@ -1,6 +1,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Zadanie 1</title>
 <script type="text/javascript">
 var gl;
 var shaderProgram;
@@ -111,6 +112,7 @@ function createPlanet(r, d) {
 let uMVMatrix = null;
 function startGL() 
 {
+  alert("You can move around with WASD keys")
   let canvas = document.getElementById("canvas3D"); //wyszukanie obiektu w strukturze strony 
   gl = canvas.getContext("experimental-webgl"); //pobranie kontekstu OpenGL'u z obiektu canvas
   gl.viewportWidth = canvas.width; //przypisanie wybranej przez nas rozdzielczości do systemu OpenGL
@@ -627,7 +629,7 @@ if(e.keyCode==87)
 }
 </script>
 </head>
-<body onload="startGL()" onkeydown="handlekeydown(event)">
+<body onload="startGL()" onkeydown="handlekeydown(event)" >
 <canvas id="canvas3D" width="2200" height="1080" style="border: solid black 1px"></canvas>
 </body>
 </html>
